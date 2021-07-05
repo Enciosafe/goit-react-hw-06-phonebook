@@ -21,5 +21,6 @@ const changeFilter = (value) => ({
     payload: value,
 })
 
+const contactsActions = {addContact, delContact, changeFilter}
 
-export default {addContact, delContact, changeFilter}
+export default contactsActions

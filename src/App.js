@@ -49,7 +49,7 @@ App.propTypes = {
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
             number: PropTypes.string,
-            sex: PropTypes.bool.isRequired
+            sex: PropTypes.string.isRequired
         })
     )
 };
