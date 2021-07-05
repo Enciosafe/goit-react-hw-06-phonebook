@@ -3,75 +3,43 @@ import ContactForm from "./components/ContactForm/ContactForm";
 import ContactList from "./components/ContactList/ContactList";
 import Filter from "./components/Filter/Filter";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+
+
 
 
 
 class App extends React.Component {
 
-    state = {
-        contacts: [],
-        filter: ''
-    }
-    addNewContact = (data) => {
-        this.setState(prevState => ({
-           contacts: [...prevState.contacts, data]
-        }))
-    }
-
-    delContact = e => {
-        this.setState(prevState => ({
-            contacts: [...prevState.contacts.filter(contact => contact.id !== e.target.id)]
-        }))
-    }
-
-    changeFilter = e => {
-        const {value} = e.currentTarget
-        this.setState({filter: value})
-    }
-
-    getVisibleContacts = () => {
-        const {filter, contacts} = this.state
-        const lowerFilter = filter.toLowerCase()
-
-        return contacts.filter(contact =>
-            contact.name.toLowerCase().includes(lowerFilter))
-    }
-
-    componentDidMount() {
-        const parsedContacts = JSON.parse(localStorage.getItem('contacts'))
-        console.log(parsedContacts)
-        if (parsedContacts) {
-            this.setState({contacts: parsedContacts})
-        }
-        }
-
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.contacts !== this.state.contacts) {
-            localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-            console.log(this.state.contacts)
+        const KEY = 'contacts'
+        if (this.props.contacts !== prevProps.contacts) {
+            const data = JSON.stringify(this.props.contacts)
+            window.localStorage.setItem(KEY, data)
         }
     }
 
 
-    render() {
-        const filteredContacts = this.getVisibleContacts()
-
-    return <>
+    render()
+    {
+        return <>
         <h1>Phonebook</h1>
-         <ContactForm
-             contacts={this.state.contacts}
-             onSubmit={this.addNewContact}/>
-
-        <h2>Contacts</h2>
-        <Filter handlerFilter={this.changeFilter}
-                filter={this.state.filter}/>
-        <ContactList contacts={filteredContacts}
-                     handlerDel={this.delContact}
-        />
-    </>
+            <ContactForm contacts={this.props.contacts}/>
+            <h2>Contacts</h2>
+            <Filter/>
+            <ContactList/>
+        </>
   }
 }
-export default App;
+
+const mapStateToProps = state => ({
+    contacts: state.contacts.contacts,
+    filter: state.contacts.filter,
+})
+
+
+
+export default connect(mapStateToProps)(App);
 
 
 App.propTypes = {

@@ -1,6 +1,8 @@
 import React from "react";
 import InputForm from "./InputForm/InputForm";
 import {v4 as uuidv4} from "uuid";
+import {connect} from "react-redux";
+import contactActions from './../../redux/contacts/contacts-actions'
 
 
 class ContactForm extends React.Component {
@@ -52,4 +54,11 @@ class ContactForm extends React.Component {
     }
 }
 
-export default ContactForm
+const mapDispatchToProps = dispatch => ({
+    onSubmit: (data) => dispatch(contactActions.addContact(data))
+})
+
+
+
+
+export default connect(null, mapDispatchToProps)(ContactForm)

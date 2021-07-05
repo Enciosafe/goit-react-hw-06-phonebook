@@ -1,6 +1,7 @@
 import React from 'react';
 import s from "./InputForm.module.css";
 
+
 const InputForm = ({state: {name, number, sex}, handleChange, addContact}) => {
 
     return <div className={s.contactFormContainer}>
